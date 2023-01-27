@@ -2,12 +2,21 @@ package main
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"log"
 	"telegramSDK/telegramClient"
 )
 
 func main() {
-	token := "5778811258:AAHw38nJ9hVVvnh1HslfuohwCQfic2UjOZ0"
+	vp := viper.New()
+	vp.SetConfigName("config")
+	vp.SetConfigType("env")
+	vp.AddConfigPath(".")
+	err := vp.ReadInConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+	token := vp.GetString("Token")
 
 	tgClient := telegramClient.NewTelegramClient(token)
 	offset := 0
